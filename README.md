@@ -5,4 +5,4 @@ This is a simple MySQL Database for a pizza restaurant, storing information abou
 Also included is a command line interface for adding and checking open orders, managing inventory, etc.
 The application layer is done in JDBC, the majority of my contributions to it are in DBNinja.java.
 The MYSQL code is mine as well.
-Otherwise, the code in antonspizzadb was created by my professor, and the files in lib are library files for JDBC.
+Otherwise, the code in antonspizzadb was created by my professor, and the files in lib are for the JDBC library.
