@@ -89,13 +89,13 @@ public final class DBNinja {
 
         String findID = "Select MAX(order_id) FROM ORDER_;";
 
-        String insertO = "INSERT INTO ORDER_ (order_id,total_price) VALUES (?,?);";
-        String insertDineIn = "INSERT INTO DINE_IN_ORDER (order_id,table_number) " +
-        "VALUES (?,?);";
-        String insertDineOut = "INSERT INTO PICKUP_ORDER (order_id,customer_id) " +
-        "VALUES (?,?);";
-        String insertDelivery = "INSERT INTO DELIVERY_ORDER (order_id,customer_id) " +
-        "VALUES (?,?);";
+        String insertO = "Insert Into ORDER_ (order_id,total_price) Values (?,?);";
+        String insertDineIn = "Insert Into DINE_IN_ORDER (order_id,table_number) " +
+        "Values (?,?);";
+        String insertDineOut = "Insert Into PICKUP_ORDER (order_id,customer_id) " +
+        "Values (?,?);";
+        String insertDelivery = "Insert Into DELIVERY_ORDER (order_id,customer_id) " +
+        "Values (?,?);";
 
         PreparedStatement stmt0;
         PreparedStatement stmt1;
@@ -158,7 +158,7 @@ public final class DBNinja {
                 else if (P.getSize().equals(DBNinja.size_m)) {psize = "medium";}
                 else if (P.getSize().equals(DBNinja.size_l)) {psize = "large";}
                 else if (P.getSize().equals(DBNinja.size_xl)) {psize = "x_large";}
-                selectAmt = "Select " + psize + " FROM TOPPING WHERE topping_id = ?;";
+                selectAmt = "Select " + psize + " From TOPPING Where topping_id = ?;";
                 try {
                     stmt3 = conn.prepareStatement(selectAmt);
                     stmt3.setInt(1,T.getID());
@@ -202,11 +202,11 @@ public final class DBNinja {
      */
     public static void addCustomer(ICustomer cust) throws SQLException, IOException {
         connect_to_db();
-        String findID = "Select MAX(customer_id) FROM PICKUP_CUSTOMER;";
-        String query1 = "INSERT INTO PICKUP_CUSTOMER (customer_id,name,phone_number) " +
-        "VALUES (?,?,?);";
-        String query2 = "INSERT INTO DELIVERY_CUSTOMER (customer_id,address) " +
-        "VALUES (?,?);";
+        String findID = "Select MAX(customer_id) From PICKUP_CUSTOMER;";
+        String query1 = "Insert Into PICKUP_CUSTOMER (customer_id,name,phone_number) " +
+        "Values (?,?,?);";
+        String query2 = "Insert Into DELIVERY_CUSTOMER (customer_id,address) " +
+        "Values (?,?);";
         Statement stmt0;
 
         //  Depending on customer type, will need to have different SQL statements
@@ -296,8 +296,8 @@ public final class DBNinja {
     public static void CompleteOrder(Order o) throws SQLException, IOException {
         connect_to_db();
 
-        String updateP = "Update PIZZA SET status = \'Ready\' WHERE order_id = ?;";
-        String updateO = "Update ORDER_ SET status = 1 WHERE order_id = ?;";
+        String updateP = "Update PIZZA Set status = \'Ready\' Where order_id = ?;";
+        String updateO = "Update ORDER_ Set status = 1 Where order_id = ?;";
 
         PreparedStatement stmtP;
         PreparedStatement stmtO;
@@ -336,9 +336,9 @@ public final class DBNinja {
     public static void AdjustInventoryLevel(Topping t, double toAdd) throws SQLException, IOException {
         connect_to_db();
 
-        String update = "UPDATE TOPPING " +
-        "SET inventory = (? + ?) " +
-        "WHERE topping_id = ?";
+        String update = "Update TOPPING " +
+        "Set inventory = (? + ?) " +
+        "Where topping_id = ?";
 
         PreparedStatement stmt;
 
@@ -375,9 +375,9 @@ public final class DBNinja {
      */
     private static void ChangeInventoryLevel(Topping t, double toAdd) throws SQLException, IOException {
 
-        String update = "UPDATE TOPPING " +
-        "SET inventory = (? + ?) " +
-        "WHERE topping_id = ?";
+        String update = "Update TOPPING " +
+        "Set inventory = (? + ?) " +
+        "Where topping_id = ?";
 
         PreparedStatement stmt;
 
@@ -448,8 +448,8 @@ public final class DBNinja {
 
         ArrayList<Order> os = new ArrayList<Order>();
 
-        String query = "Select order_id FROM ORDER_ " +
-        "WHERE status = 0;";
+        String query = "Select order_id From ORDER_ " +
+        "Where status = 0;";
 
         Statement stmt = conn.createStatement();
         try {
@@ -521,7 +521,7 @@ public final class DBNinja {
         ArrayList<Discount> discs = new ArrayList<Discount>();
         connect_to_db();
         //add code to get a list of all discounts
-        String query = "Select discount_id FROM DISCOUNT;";
+        String query = "Select discount_id From DISCOUNT;";
 
         Statement stmt = conn.createStatement();
         try {
@@ -556,8 +556,8 @@ public final class DBNinja {
         ArrayList<ICustomer> custs = new ArrayList<ICustomer>();
         connect_to_db();
 
-        String query1 = "Select customer_id FROM DELIVERY_CUSTOMER;";
-        String query2 = "Select customer_id FROM PICKUP_CUSTOMER;";
+        String query1 = "Select customer_id From DELIVERY_CUSTOMER;";
+        String query2 = "Select customer_id From PICKUP_CUSTOMER;";
 
         Statement stmt1 = conn.createStatement();
         Statement stmt2 = conn.createStatement();
@@ -611,7 +611,7 @@ public final class DBNinja {
      */
     private static Topping getTopping(int ID) throws SQLException, IOException {
         Topping t = new Topping("fake", 0.25, 100.0, -1);
-		String query = "Select name, price, inventory From TOPPING where topping_id = ?";
+		String query = "Select name, price, inventory From TOPPING Where topping_id = ?";
 
         PreparedStatement stmt;
         try {
@@ -649,7 +649,7 @@ public final class DBNinja {
      */
     private static Discount getDiscount(int ID)  throws SQLException, IOException {
         Discount D = new Discount("fake",0,0,0);
-        String query = "Select name, percent_off, dollar_off From DISCOUNT where discount_id = ?;";
+        String query = "Select name, percent_off, dollar_off From DISCOUNT Where discount_id = ?;";
 
         PreparedStatement stmt;
         try {
@@ -750,9 +750,9 @@ public final class DBNinja {
     private static ICustomer getCustomer(int ID)  throws SQLException, IOException {
         ICustomer C = new DineOutCustomer(-1,"fake","nonumber");
         String query = "Select p.name, p.phone_number, d.address " +
-        "FROM PICKUP_CUSTOMER p " +
-        "LEFT OUTER JOIN DELIVERY_CUSTOMER d ON p.customer_id = d.customer_id " +
-        "WHERE p.customer_id = ?;";
+        "From PICKUP_CUSTOMER p " +
+        "Left Outer Join DELIVERY_CUSTOMER d On p.customer_id = d.customer_id " +
+        "Where p.customer_id = ?;";
 
         PreparedStatement stmt;
         try {
@@ -809,21 +809,21 @@ public final class DBNinja {
         ICustomer C = new DineOutCustomer(-1,"fake","nonumber");
 
         String query1 = "Select din.table_number, dout.customer_id, del.customer_id " +
-        "FROM ORDER_ o " +
-        "LEFT OUTER JOIN DINE_IN_ORDER din ON o.order_id = din.order_id " +
-        "LEFT OUTER JOIN PICKUP_ORDER dout ON o.order_id = dout.order_id " +
-        "LEFT OUTER JOIN DELIVERY_ORDER del ON o.order_id = del.order_id " +
-        "WHERE o.order_id = ?;";
+        "From ORDER_ o " +
+        "Left Outer Join DINE_IN_ORDER din On o.order_id = din.order_id " +
+        "Left Outer Join PICKUP_ORDER dout On o.order_id = dout.order_id " +
+        "Left Outer Join DELIVERY_ORDER del On o.order_id = del.order_id " +
+        "Where o.order_id = ?;";
 
-        String query2 = "Select seat_number FROM SEAT_NUMBER " +
-        "WHERE order_id = ?;";
+        String query2 = "Select seat_number From SEAT_NUMBER " +
+        "Where order_id = ?;";
 
-        String query3 = "Select pizza_id FROM PIZZA WHERE order_id = ?;";
+        String query3 = "Select pizza_id From PIZZA Where order_id = ?;";
 
-        String query4 = "Select d.discount_id FROM DISCOUNT d " +
-        "INNER JOIN D_APPLY_O a ON d.discount_id = a.discount_id " +
-        "INNER JOIN ORDER_ o ON a.order_id = o.order_id " +
-        "WHERE o.order_id = ?;";
+        String query4 = "Select d.discount_id From DISCOUNT d " +
+        "Inner Join D_APPLY_O a On d.discount_id = a.discount_id " +
+        "Inner Join ORDER_ o On a.order_id = o.order_id " +
+        "Where o.order_id = ?;";
 
         PreparedStatement stmt;
         PreparedStatement stmt2;
@@ -911,9 +911,9 @@ public final class DBNinja {
      *  @requires the order already exists in the database
      */
     private static void addPizza(Pizza P, int orderID) throws SQLException, IOException {
-        String updateP = "INSERT INTO PIZZA (pizza_id,price,order_id,size_,crust) " +
-        "VALUES (?,?,?,?,?);";
-        String findID = "Select MAX(pizza_id) FROM PIZZA;";
+        String updateP = "Insert Into PIZZA (pizza_id,price,order_id,size_,crust) " +
+        "Values (?,?,?,?,?);";
+        String findID = "Select MAX(pizza_id) From PIZZA;";
         PreparedStatement stmt;
         PreparedStatement fnd;
 
@@ -960,8 +960,8 @@ public final class DBNinja {
      *  @requires the pizza and discount already exist in the database
      */
     private static void addPizzaDiscount(int pizzaID, int discountID) throws SQLException, IOException {
-        String updateD = "INSERT INTO D_APPLY_P (pizza_id,discount_id) " +
-        "VALUES (?,?)";
+        String updateD = "Insert Into D_APPLY_P (pizza_id,discount_id) " +
+        "Values (?,?)";
         PreparedStatement stmt;
 
         try {
@@ -988,8 +988,8 @@ public final class DBNinja {
      *  @requires the order and discount already exist in the database
      */
     private static void addOrderDiscount(int orderID, int discountID) throws SQLException, IOException {
-        String updateD = "INSERT INTO D_APPLY_O (order_id,discount_id) " +
-        "VALUES (?,?)";
+        String updateD = "Insert Into D_APPLY_O (order_id,discount_id) " +
+        "Values (?,?)";
         PreparedStatement stmt;
 
         try {
@@ -1017,8 +1017,8 @@ public final class DBNinja {
      *  @requires the topping and pizza already exist in the database
      */
     private static void putTopping(int pID, int tID, boolean isExtra) throws SQLException, IOException {
-        String insert = "INSERT INTO HAS (pizza_id, topping_id, extra) " +
-        "VALUES (?,?,?);";
+        String insert = "Insert Into HAS (pizza_id, topping_id, extra) " +
+        "Values (?,?,?);";
         PreparedStatement stmt;
 
         try {
