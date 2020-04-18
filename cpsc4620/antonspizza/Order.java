@@ -21,6 +21,10 @@ public class Order {
 
     //You pass in the ID, customer, table number and order type.
     //Once the Order is created you can add pizzas and discounts.
+    
+    public Order() {
+        
+    }
 
     /**
      *
@@ -48,6 +52,10 @@ public class Order {
     public int getID()
     {
         return ID;
+    }
+    
+    public void setID(int id) {
+        ID = id;
     }
 
     public ICustomer getCustomer()
@@ -177,6 +185,10 @@ public class Order {
         for (Pizza p: pizzas)
         {
             s += p.toString() + "\n";
+            /* FIXME test print
+            for (Topping T : p.getToppings()) {
+                System.out.println("TEST Topping ID: " + T.getID());
+            }*/
         }
 
         s += "\nOrder Discounts: \n";

@@ -14,6 +14,10 @@ public abstract class AbsCustomer implements ICustomer{
     {
         return ID;
     }
+    
+    public void setID(int id) {
+        ID = id;
+    }
 
     public String getType()
     {

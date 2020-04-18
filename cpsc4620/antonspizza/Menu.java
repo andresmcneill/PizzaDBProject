@@ -31,7 +31,6 @@ public class Menu {
         String option = reader.readLine();
         menu_option = Integer.parseInt(option);
 
-
         while(menu_option != 7)
         {
             if (menu_option == 1)
@@ -158,7 +157,7 @@ public class Menu {
             //still need to set order_type
             if(answer == 2)
             {
-                order_type = DBNinja.pickup;
+                order_type = DBNinja.dine_out;
                 IDineOutCustomer temp = (DineOutCustomer) custs.get(cust_no - 1);
                 newCust = new DineOutCustomer(temp.getID(), temp.getName(), temp.getPhone() );
             }
@@ -240,9 +239,7 @@ public class Menu {
         /**********************************************************************************
 
 
-         TELL ME WHAT FORMAT TO USE FOR THE PHONE NUMBER IN THE PROMPT
-         THIS DEPENDS ON THE FORMAT YOU HAVE IN YOUR DATABASE
-
+        My DB just uses a string for phone numbers, but I populated them with dashes
 
          ***********************************************************************************/
         System.out.println("Please Enter the Customer phone number: ");
@@ -350,7 +347,7 @@ public class Menu {
         {
             System.out.println("How many units would you like to add? ");
             double add = Double.parseDouble(reader.readLine());
-            DBNinja.AddToInventory(curInventory.get(chosen_t - 1), add);
+            DBNinja.AdjustInventoryLevel(curInventory.get(chosen_t - 1), add);
         }
         else
         {

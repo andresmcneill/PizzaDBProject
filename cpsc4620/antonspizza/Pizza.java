@@ -23,7 +23,7 @@ public class Pizza {
      * @param s the size of the pizza
      * @param c the crust type
      * @param bp the base price of the pizza
-     * @requirws i = (a valid id || -1 to show a new order)
+     * @requires i = (a valid id || -1 to show a new order)
      *           s = (DBNinja.size_s || DBNinja.size_m || DBNinja.size_l || DBNinja.size_xl)
      *           c = (DBNinja.crust_thin || DBNinja.crust_orig || DBNinja.crust_pan || DBNinja.crust_gf)
      *           bp is the base price for that size and crust
@@ -48,6 +48,10 @@ public class Pizza {
     public int getID()
     {
         return ID;
+    }
+    
+    public void setID(int id) {
+        ID = id;
     }
 
     /**

@@ -17,6 +17,8 @@ public interface ICustomer {
      * @ensures getID = ID
      */
     int getID();
+    
+    void setID(int id);
 
     /**
      *
