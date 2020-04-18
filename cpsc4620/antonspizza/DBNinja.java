@@ -458,6 +458,10 @@ public final class DBNinja {
             while (rset.next()) {
                 int orderID = rset.getInt(1);
                 os.add(getOrder(orderID));
+                //for (Pizza P : os.get(os.size()-1).getPizzas()) {
+                //    System.out.println("ORDER#"+orderID+": "+P.calcPrice());
+                //}
+                //System.out.println("Order # "+orderID+": "+os.get(os.size()-1).calcPrice());
             }
         }
         catch (SQLException e) {
@@ -702,15 +706,22 @@ public final class DBNinja {
 
         try {
             stmt1 = conn.prepareStatement(pquery);
+            stmt1.setInt(1,ID);
             stmt2 = conn.prepareStatement(dquery);
+            stmt2.setInt(1,ID);
             stmt3 = conn.prepareStatement(tquery);
+            stmt3.setInt(1,ID);
 
             ResultSet baseSet = stmt1.executeQuery();
             while (baseSet.next()) {
                 size = baseSet.getString(1);
-                if (baseSet.wasNull()) {System.out.println("getPizza() ERROR: PIZZA size not initialized");}
+                if (baseSet.wasNull()) {
+                    System.out.println("getPizza() ERROR: PIZZA size not initialized");
+                }
                 crust = baseSet.getString(2);
-                if (baseSet.wasNull()) {System.out.println("getPizza() ERROR: PIZZA crust not initialized");}
+                if (baseSet.wasNull()) {
+                    System.out.println("getPizza() ERROR: PIZZA crust not initialized");
+                }
             }
             bp = mygetBasePrice(size,crust);
             P = new Pizza(ID,size,crust,bp);
@@ -771,11 +782,9 @@ public final class DBNinja {
                     System.out.println("getCustomer() ERROR: CUSTOMER number is null");
                 }
                 String address = rset.getString(3);
-                if (rset.wasNull()) {
-                    System.out.println("getCustomer() ERROR: CUSTOMER address is null");
-                }
 
-                if (address == null) {
+                //  if the address was null we assume it was a dine out customer
+                if (rset.wasNull()) {
                     C = new DineOutCustomer(ID,cname,number);
                 }
                 else {
